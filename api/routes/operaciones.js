@@ -1,13 +1,14 @@
 'use strict'
 
 const router = require('express-promise-router')()
-
+const auth = require('express-jwt')
+const config = require('../../config')
 const Db = require('../../../validation-bd')
 
 const env = process.env.NODE_ENV || 'production'
 let db = new Db()
 
-router.get('/', async (req, res, next) => {
+router.get('/', auth(config.auth),async (req, res, next) => {
   
   await db.connect()
   let operaciones = await db.getOperaciones()
